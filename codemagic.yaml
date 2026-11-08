@@ -9,9 +9,8 @@ workflows:
         script: |
           flutter create --org com.zeyad.germanapp --project-name german_app .
           mkdir -p lib
-          cp main.dart lib/main.dart
-          sed -i '/^const words/,/^};/d' lib/main.dart
-          sed -i '/^const lessons/,/^};/d' lib/main.dart
+          sed '/^const words/,/^};/d' main.dart > t1.dart
+          sed '/^const lessons/,/^};/d' t1.dart > lib/main.dart
           W=""
           LS=""
           for l in a1 a2 b1 b2 c1; do
