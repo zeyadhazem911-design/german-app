@@ -12,7 +12,18 @@ workflows:
           cp main.dart lib/main.dart
           sed -i '/^const words/,/^};/d' lib/main.dart
           sed -i '/^const lessons/,/^};/d' lib/main.dart
-          cat content.dart >> lib/main.dart
+          W=""
+          LS=""
+          for l in a1 a2 b1 b2 c1; do
+            if [ -f "$l.dart" ]; then
+              cat "$l.dart" >> lib/main.dart
+              U=$(echo $l | tr a-z A-Z)
+              W="$W '$U': words$U,"
+              LS="$LS '$U': lessons$U,"
+            fi
+          done
+          echo "const words = <String, List<W>>{$W};" >> lib/main.dart
+          echo "const lessons = <String, List<L>>{$LS};" >> lib/main.dart
           flutter pub add flutter_tts
           flutter pub get
       - name: Build APK
