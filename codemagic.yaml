@@ -2,7 +2,6 @@ workflows:
   android-build:
     name: Android Build
     max_build_duration: 30
-  
     environment:
       flutter: stable
     scripts:
@@ -11,6 +10,9 @@ workflows:
           flutter create --org com.zeyad.germanapp --project-name german_app .
           mkdir -p lib
           cp main.dart lib/main.dart
+          sed -i '/^const words/,/^};/d' lib/main.dart
+          sed -i '/^const lessons/,/^};/d' lib/main.dart
+          cat content.dart >> lib/main.dart
           flutter pub add flutter_tts
           flutter pub get
       - name: Build APK
