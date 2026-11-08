@@ -1,0 +1,20 @@
+workflows:
+  android-build:
+    name: Android Build
+    max_build_duration: 30
+    instance_type: linux_x2
+    environment:
+      flutter: stable
+    scripts:
+      - name: Prepare project
+        script: |
+          flutter create --org com.zeyad.germanapp --project-name german_app .
+          mkdir -p lib
+          cp main.dart lib/main.dart
+          flutter pub add flutter_tts
+          flutter pub get
+      - name: Build APK
+        script: |
+          flutter build apk --release
+    artifacts:
+      - build/**/outputs/**/*.apk
